@@ -5,6 +5,7 @@ public class Member {
     private Long id;
     private String name;
 
+    // (public) getId 존재 이유: id가 private라서
     public Long getId() {
         return id;
     }
