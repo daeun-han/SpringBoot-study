@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <form action="/members/new" method="post"> <!--submit되면 action url로 post 방식으로 내려옴-->
+        <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" id="name" name="name" placeholder="이름을 입력하세요"> <!--name="name"의 오른쪽 name이 서버에서의 키값이 됨. 덕분에 스프링이 MemberForm의 name에 value값을 받아 넣어주는 것-->
+        </div>
+        <button type="submit">등록</button>
+    </form>
+</div> <!-- /container -->
+</body>
+</html>
