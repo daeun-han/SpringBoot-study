@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service // >어노테이션을 통해< spring이 spring container에 넣어주면서 의존성 주입!!
+//@Service // >어노테이션을 통해< spring이 spring container에 넣어주면서 의존성 주입!!
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    @Autowired
+//    @Autowired // @Autowired는 스프링 빈으로 등록 되어 있을 때만 효력있음.
     public MemberService(MemberRepository memberRepository) {
 
         this.memberRepository = memberRepository;
