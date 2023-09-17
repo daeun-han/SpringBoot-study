@@ -47,4 +47,5 @@ class MemberServiceIntegrationTest {
 
         assertThat(e.getMessage()).isEqualTo("이미 존재하는 회원입니다.");
     }
+    // 테스트 코드에 대해 고민해보고, 잘 짜자!
 }
