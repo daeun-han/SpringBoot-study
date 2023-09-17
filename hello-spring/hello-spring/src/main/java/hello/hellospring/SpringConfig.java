@@ -1,14 +1,24 @@
 package hello.hellospring;
 
+import hello.hellospring.repository.JdbcMemberRepository;
 import hello.hellospring.repository.MemberRepository;
 import hello.hellospring.repository.MemoryMemberRepository;
 import hello.hellospring.service.MemberService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+
+import javax.sql.DataSource;
 
 // 자바 코드로 직접 스프링 빈 등록하기
 @Configuration
 public class SpringConfig {
+
+    private DataSource dataSource;
+
+    public SpringConfig(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Bean
     public MemberService memberService() {
@@ -17,7 +27,8 @@ public class SpringConfig {
 
     @Bean
     public MemberRepository memberRepository() {
-        return new MemoryMemberRepository(); // 나중에 db연결하면 MemoryMemberRepository를 dbMemberRepository로 바꾸면 됨
+//        return new MemoryMemberRepository(); // 나중에 db연결하면 MemoryMemberRepository를 dbMemberRepository로 바꾸면 됨
+        return new JdbcMemberRepository(dataSource); // 객체지향의 다형성을 활용한다고 볼 수 있음. 인터페이스를 두고 구현체를 바꿔끼기 했기 때문에.
     }
 }
 
