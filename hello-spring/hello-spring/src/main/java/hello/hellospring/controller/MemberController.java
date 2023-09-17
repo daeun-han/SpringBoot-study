@@ -21,6 +21,9 @@ public class MemberController {
     @Autowired // 생성자 함수에 @Autowired가 붙으면 spring이 springcontainer에 있는 memberserivce를 연결시켜준다.
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
+
+        // 실제 Proxy가 주입되는지 콘솔에 출력해서 확인하기
+        System.out.println("memberService = " + memberService.getClass()); // memberservice를 가지고 복제해서 코드를 조작하는 기술. (aop에서 사용)
     }
 
     // 필드 주입으로 DI

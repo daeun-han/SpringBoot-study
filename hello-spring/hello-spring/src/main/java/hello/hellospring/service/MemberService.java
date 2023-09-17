@@ -17,24 +17,15 @@ public class MemberService {
 
 //    @Autowired // @Autowired는 스프링 빈으로 등록 되어 있을 때만 효력있음.
     public MemberService(MemberRepository memberRepository) {
-
         this.memberRepository = memberRepository;
     }
 
     // 회원가입 서비스 로직
     public Long join(Member member) {
 
-        long start = System.currentTimeMillis();
-
-        try {
             validateDuplicateMember(member); // 중복 회원 검증
             memberRepository.save(member);
             return member.getId();
-        } finally {
-            long finish = System.currentTimeMillis();
-            long timeMs = finish - start;
-            System.out.println("join = " + timeMs + "ms"); // 단축키: sout 하면 됨
-        }
     }
 
     // 같은 이름이 있는 중복 회원 X
@@ -54,16 +45,7 @@ public class MemberService {
 
     // 전체 회원 조회 서비스 로직
     public List<Member> findMembers() {
-
-        long start = System.currentTimeMillis();
-
-        try {
             return memberRepository.findAll();
-        } finally {
-            long finish = System.currentTimeMillis();
-            long timeMs = finish - start;
-            System.out.println("findMembers = " + timeMs + "ms");
-        }
     }
 
     public Optional<Member> findOne(Long memberId) {
