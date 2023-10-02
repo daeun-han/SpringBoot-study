@@ -12,11 +12,13 @@
     {{#articleList}} <!--머스테치 문법에 쓴 변수가 데이터 묶음인 경우, 내부 코드가 반복됨-->
         <tr>
             <th>{{id}}</th>
-            <td>{{title}}</a></td>
+            <td><a href="/articles/{{id}}">{{title}}</a></td>
             <td>{{content}}</td>
         </tr>
     {{/articleList}}
     </tbody>
 </table>
+
+<a href="/articles/new">New Article</a>
 
 {{>layouts/footer}}

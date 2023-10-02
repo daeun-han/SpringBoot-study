@@ -40,7 +40,7 @@ public class ArticleController {
         log.info(saved.toString()); // 로깅 코드 추가
 //        System.out.println(saved.toString()); // article이 DB에 잘 저장되는지 확인 출력
 
-        return "";
+        return "redirect:/articles/" + saved.getId(); // id 값을 가져오기 위해 saved 객체 이용, + 연산자 이용해 id에 따라 url 주소가 달라지게 함.
     }
 
     @GetMapping("/articles/{id}") // 데이터 조회 요청 접수
