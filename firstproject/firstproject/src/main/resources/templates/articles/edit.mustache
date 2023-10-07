@@ -2,7 +2,7 @@
 
 {{#article}}
     <form class="container" action="/articles/update" method="post">
-        <input name="id" type="hidden" value="{{id}}">
+        <input name="id" type="hidden" value="{{id}}"> <!--hidden 타입으로 화면에 보이지 않음-->
         <div class="mb-3">
             <label class="form-label">제목</label>
             <input type="text" class="form-control" name="title" value="{{title}}"> <!--update는 value="{{title}}" 형식-->
