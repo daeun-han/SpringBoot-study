@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -100,5 +101,25 @@ public class ArticleController {
         
         // 3. 수정 결과 페이지로 리다이렉트하기
         return "redirect:/articles/" + articleEntity.getId(); // 엔티티에 따라 매번 바뀌는 구조
+    }
+
+    @GetMapping("/articles/{id}/delete")
+    public String delete(@PathVariable Long id, RedirectAttributes rttr) { // RedirectAttributes를 활용하기 위해 delete() 메서드의 매개변수로 받아오는 모습, 객체 이름은 rttr
+        
+        log.info("삭제 요청이 들어왔습니다!!");
+        
+        // 1. 삭제할 대상 가져오기
+        Article target = articleRepository.findById(id).orElse(null); // 데이터 찾기
+        log.info(target.toString());
+
+        // 2. 대상 엔티티 삭제하기
+        if (target != null) { // 삭제할 대상이 있는지 확인
+            articleRepository.delete(target); // delete() 메서드로 대상 삭제
+            rttr.addFlashAttribute("msg", "삭제됐습니다!");
+            // RedirectAttributes 객체의 addFlashAttribute() 메서드를 활용하면 리다이렉트 시점에 한 번만 사용할 데이터(휘발성 데이터)를 등록할 수 있다.
+        }
+
+        // 3. 결과 페이지로 리다이렉트하기
+        return "redirect:/articles";
     }
 }
