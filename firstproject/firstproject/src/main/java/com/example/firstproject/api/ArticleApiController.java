@@ -62,4 +62,18 @@ public class ArticleApiController {
     }
 
     //DELETE
+    @DeleteMapping("/api/articles/{id}")
+    public ResponseEntity<Article> delete (@PathVariable Long id) {
+        // 1. 대상 찾기 (DB에서 대상 엔티티가 있는지 조회)
+        Article target = articleRepository.findById(id).orElse(null); // 레포지토리의 메서드를 통해 DB에서 엔티티를 가져오되, 없으면 null을 반환
+
+        // 2. (대상 엔티티가 없어서)잘못된 요청 처리하기
+        if (target == null) { // 잘못된 요청인지 판별 (대상 엔티티가 없을 때)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        
+        // 3. 대상 삭제하기(대상 엔티티가 있으면 삭제한 후, 정상 응답(200) 반환하기)
+        articleRepository.delete(target);
+        return ResponseEntity.status(HttpStatus.OK).build(); // body(null)과 build()의 결과는 같음.
+    }
 }
