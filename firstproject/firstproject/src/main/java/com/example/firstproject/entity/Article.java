@@ -22,4 +22,11 @@ public class Article {
 
     @Column
     private String content;
+
+    public void patch(Article article) { // 수정할 내용이 있는 경우에만 동작 -> 덕분에 일부분만 수정 가능
+        if (article.title != null)
+            this.title = article.title;
+        if (article.content != null)
+            this.content = article.content;
+    }
 }
