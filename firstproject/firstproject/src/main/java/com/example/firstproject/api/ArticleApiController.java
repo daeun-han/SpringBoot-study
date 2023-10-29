@@ -61,5 +61,14 @@ public class ArticleApiController {
             return (deleted != null) ?
                     ResponseEntity.status(HttpStatus.NO_CONTENT).build() : // 삭제됐기에 본문이 없음
                     ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); //본문이 없어서 빌드만 함.
-        }
+    }
+
+    @PostMapping("/api/transaction-test") // 여러 게시글 생성 요청 접수
+    // 서버에서 응답할 때, 데이터 생성 결과뿐만 아니라 상태 코드도 함께 보내므로 메서드의 반환형은 ResponseEntity<List<Article>>로 설정.
+    public ResponseEntity<List<Article>> transactionTest(@RequestBody List<ArticleForm> dtos) { // 매개변수로 ArticleForm 데이터를 List로 묶은 dtos를 선언, @RequestBody는 REST API 방식으로 POST 요청을 받고있기에 붙임.
+        List<Article> createdList = articleService.createArticles(dtos); // 서비스 호출
+        return (createdList != null) ?
+                ResponseEntity.status(HttpStatus.OK).body(createdList) :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 }

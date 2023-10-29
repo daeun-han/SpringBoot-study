@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Transactional
 @Slf4j //로그 찍게하는 어노테이션
 @Service // 서비스 객체 생성
 public class ArticleService {
@@ -67,5 +70,20 @@ public class ArticleService {
         // 3. 대상 삭제하기(대상 엔티티가 있으면 삭제한 후, 정상 응답(200) 반환하기)
         articleRepository.delete(target);
         return target; // DB에서 삭제한 대상을 컨트롤러에 반환
+    }
+
+    public List<Article> createArticles(List<ArticleForm> dtos) {
+        // 1. dto 묶음을 엔티티 묶음으로 변환하기
+        List<Article> articleList = dtos.stream() // dtos를 stream화 하기, dto의 묶음인 dtos를 엔티티의 묶음으로 만들기 위해 스트림 문법 사용
+                .map(dto -> dto.toEntity()) // map()으로 dto가 하나하나 올 때마다 dto.toEntity()를 수행해 매핑
+                .collect(Collectors.toList()); // 매핑한 것을 리스트로 묶기, 최종 결과를 articleList에 저장
+        // 2. 엔티티 묶음을 DB에 저장하기
+        articleList.stream()
+                .forEach(article -> articleRepository.save(article));
+        // 3. 강제 예외 발생시키기
+        articleRepository.findById(-1L) // id가 -1인 데이터 찾기
+                .orElseThrow(() -> new IllegalArgumentException("결제 실패!")); // orElseThrow() 메서드는 값이 존재하면 그 값을 반환하고, 없으면ㅔ 전달값으로 보낸 예외 발생(IllegalArgumentException는 전달값이 없거나 유효하지 않은 경우를 뜻함.)
+        // 4. 결과 값 반환하기
+        return articleList;
     }
 }
