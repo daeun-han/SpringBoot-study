@@ -25,6 +25,17 @@ public class CommentApiController {
     }
 
     // 2. 댓글 생성
+    @PostMapping("/api/articles/{articleId}/comments")
+    public ResponseEntity<CommentDto> create(@PathVariable Long articleId,
+                                             @RequestBody CommentDto dto) { // HTTP 요청의 BODY로부터 JSON 데이터를 받아오므로 / @RequestBody는 HTTP 요청 본문에 실린 내용(JSON, XML, YAML)을 자바 객체로 변환해준다.
+
+        // 컨트롤러는 서비스에 댓글 새엇ㅇ 작업을 위임하고, 단지 결과만 받아서 클라이언트에 응답한다.
+        // 서비스에 위임
+        CommentDto createdDto = commentService.create(articleId, dto);
+        // 결과 응답
+        return ResponseEntity.status(HttpStatus.OK).body(createdDto);
+    }
+
     // 3. 댓글 수정
     // 4. 댓글 삭제
 }
